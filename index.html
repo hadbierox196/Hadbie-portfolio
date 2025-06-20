@@ -45,9 +45,9 @@
         }
 
         .page img {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
             display: block;
         }
 
@@ -56,6 +56,10 @@
             max-width: 800px;
             padding: 20px;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .about-content h1 {
@@ -154,6 +158,33 @@
             z-index: 1000;
         }
 
+        /* Back button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .back-button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .back-button.show {
+            display: block;
+        }
+
         /* Mobile optimization */
         @media (max-width: 768px) {
             .about-content {
@@ -189,6 +220,18 @@
                 bottom: 1rem;
                 font-size: 0.8rem;
             }
+
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .page img {
+                max-width: 95%;
+                max-height: 95%;
+            }
         }
     </style>
 </head>
@@ -204,6 +247,8 @@
     <div class="swipe-indicator">
         Swipe or use arrow keys to navigate
     </div>
+
+    <button class="back-button" id="backButton">← Back</button>
 
     <!-- Page 1: Homepage -->
     <div class="page active" id="page-0">
@@ -327,11 +372,13 @@
             constructor() {
                 this.pages = document.querySelectorAll('.page');
                 this.dots = document.querySelectorAll('.nav-dot');
+                this.backButton = document.getElementById('backButton');
                 this.currentPage = 0;
                 this.totalPages = this.pages.length;
                 this.isAnimating = false;
                 
                 this.initEventListeners();
+                this.updateBackButton();
             }
 
             initEventListeners() {
@@ -390,6 +437,20 @@
                         this.goToPage(index);
                     });
                 });
+
+                // Back button
+                this.backButton.addEventListener('click', () => {
+                    if (this.isAnimating) return;
+                    this.prevPage();
+                });
+            }
+
+            updateBackButton() {
+                if (this.currentPage > 0) {
+                    this.backButton.classList.add('show');
+                } else {
+                    this.backButton.classList.remove('show');
+                }
             }
 
             nextPage() {
@@ -432,6 +493,9 @@
                 this.dots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === pageIndex);
                 });
+                
+                // Update back button
+                this.updateBackButton();
                 
                 setTimeout(() => {
                     this.isAnimating = false;
