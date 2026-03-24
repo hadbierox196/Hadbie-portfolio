@@ -6,16 +6,28 @@ import { playMove, playSelect, playBack, playPageTurn } from './utils/audio';
 // ─── Icon helper: all icons live in /icons/*.png ───
 function PixelImg({ name, size = 28 }: { name: string; size?: number }) {
   return (
-    <img
-      src={`/icons/${name}.png`}
-      alt={name}
-      width={size}
-      height={size}
-      style={{ width: size, height: size, objectFit: 'contain', imageRendering: 'pixelated' }}
-      draggable={false}
-    />
-  );
-}
+<div style={{ 
+  display: 'flex', 
+  alignItems: 'center', 
+  justifyContent: 'center', 
+  width: size, 
+  height: size,
+  overflow: 'hidden' // Crops anything that spills over
+}}>
+  <img
+    src={`/icons/${name}.png`}
+    alt={name}
+    style={{ 
+      width: '120%', // Scale up slightly to "crop" edges
+      height: '120%', 
+      objectFit: 'cover', 
+      imageRendering: 'pixelated',
+      transform: 'scale(1.1)' // Fine-tune the "zoom" here
+    }}
+    draggable={false}
+  />
+</div>
+
 
 // Page definitions
 type PageId = 'splash' | 'about' | 'skills' | 'websites' | 'games' | 'neuro' | 'publications' | 'contact' | 'menu';
