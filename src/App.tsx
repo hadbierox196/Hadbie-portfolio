@@ -6,28 +6,33 @@ import { playMove, playSelect, playBack, playPageTurn } from './utils/audio';
 // ─── Icon helper: all icons live in /icons/*.png ───
 function PixelImg({ name, size = 28 }: { name: string; size?: number }) {
   return (
-<div style={{ 
-  display: 'flex', 
-  alignItems: 'center', 
-  justifyContent: 'center', 
-  width: size, 
-  height: size,
-  overflow: 'hidden' // Crops anything that spills over
-}}>
-  <img
-    src={`/icons/${name}.png`}
-    alt={name}
-    style={{ 
-      width: '120%', // Scale up slightly to "crop" edges
-      height: '120%', 
-      objectFit: 'cover', 
-      imageRendering: 'pixelated',
-      transform: 'scale(1.1)' // Fine-tune the "zoom" here
-    }}
-    draggable={false}
-  />
-</div>
-
+    <div 
+      style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        width: size, 
+        height: size,
+        overflow: 'hidden',
+        flexShrink: 0, // Prevents the icon from squishing in flex layouts
+      }}
+    >
+      <img
+        src={`/icons/${name}.png`}
+        alt={name}
+        style={{ 
+          width: '150%', // Scale up to push transparent padding out of the box
+          height: '150%', 
+          objectFit: 'contain', 
+          imageRendering: 'pixelated',
+          transform: 'scale(1.2)', // Fine-tune the "zoom" here
+          display: 'block'
+        }}
+        draggable={false}
+      />
+    </div>
+  );
+}
 
 // Page definitions
 type PageId = 'splash' | 'about' | 'skills' | 'websites' | 'games' | 'neuro' | 'publications' | 'contact' | 'menu';
@@ -109,7 +114,7 @@ const PAGE_ICON_MAP: Record<string, string> = {
   games: 'games',
   neuro: 'neuro',
   publications: 'publications',
-  contact: 'contacts',
+  contact: 'contacts', // Make sure your file is named contacts.png!
 };
 
 // Maps contact label → icon filename (without .png)
@@ -373,7 +378,7 @@ function AboutPage() {
     <div className="flex-1 flex flex-col p-4 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {/* Title */}
       <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-        <PixelImg name="about" size={32} />
+        <PixelImg name="about" size={48} />
         <span className="page-title">ABOUT ME</span>
       </div>
       {/* Divider */}
@@ -398,7 +403,7 @@ function SkillsPage() {
     <div className="flex-1 flex flex-col p-4 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {/* Title */}
       <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-        <PixelImg name="skills" size={32} />
+        <PixelImg name="skills" size={48} />
         <span className="page-title">SKILLS</span>
       </div>
       {/* Divider */}
@@ -407,7 +412,7 @@ function SkillsPage() {
       <div className="flex flex-col gap-4">
         {skills.map((s, i) => (
           <div key={i} className="flex items-center gap-3">
-            <PixelImg name="star" size={18} />
+            <PixelImg name="star" size={24} />
             <span className="list-item-text">{s.label}</span>
           </div>
         ))}
@@ -427,7 +432,7 @@ function ListPage({ page, cursorIndex }: { page: PageId; cursorIndex: number }) 
     <div className="flex-1 flex flex-col p-4 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {/* Title */}
       <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-        {iconName && <PixelImg name={iconName} size={32} />}
+        {iconName && <PixelImg name={iconName} size={48} />}
         <span className="page-title">{data.title}</span>
       </div>
       {/* Divider */}
@@ -450,7 +455,7 @@ function ListPage({ page, cursorIndex }: { page: PageId; cursorIndex: number }) 
               </span>
               {/* Contact icon */}
               {isContact && CONTACT_ICON_MAP[item.label] && (
-                <PixelImg name={CONTACT_ICON_MAP[item.label]} size={24} />
+                <PixelImg name={CONTACT_ICON_MAP[item.label]} size={28} />
               )}
               {/* Label */}
               <span className="list-item-text" style={{ fontWeight: cursorIndex === i ? 'bold' : 'normal' }}>
@@ -469,7 +474,7 @@ function MenuPage({ cursorIndex }: { cursorIndex: number }) {
     <div className="flex-1 flex flex-col p-4 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
       {/* Title */}
       <div className="flex items-center gap-3 mb-4 flex-shrink-0">
-        <PixelImg name="menu" size={32} />
+        <PixelImg name="menu" size={48} />
         <span className="page-title">MENU</span>
       </div>
       {/* Divider */}
@@ -484,7 +489,7 @@ function MenuPage({ cursorIndex }: { cursorIndex: number }) {
             >
               &#9654;
             </span>
-            <PixelImg name={PAGE_ICON_MAP[item.page] || ''} size={22} />
+            <PixelImg name={PAGE_ICON_MAP[item.page] || ''} size={28} />
             <span className="list-item-text" style={{ fontWeight: cursorIndex === i ? 'bold' : 'normal' }}>
               {item.label}
             </span>
