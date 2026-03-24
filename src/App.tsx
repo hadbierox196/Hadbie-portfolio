@@ -3,29 +3,35 @@ import PixelMonster from './components/PixelMonster';
 import ScreenDecor from './components/ScreenDecor';
 import { playMove, playSelect, playBack, playPageTurn } from './utils/audio';
 
-// ─── Icon helper: all icons live in /icons/*.png ───
 function PixelImg({ name, size = 28 }: { name: string; size?: number }) {
   return (
     <div 
       style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
         width: size, 
         height: size,
-        overflow: 'hidden',
-        flexShrink: 0, // Prevents the icon from squishing in flex layouts
+        overflow: 'hidden', // This acts as our "cookie cutter"
+        flexShrink: 0, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        
+        // 🚨 DEBUG TRICK: Uncomment the line below. 
+        // If you see a big red box but a tiny icon, crank up the scale() below!
+        // backgroundColor: 'rgba(255, 0, 0, 0.2)' 
       }}
     >
       <img
         src={`/icons/${name}.png`}
         alt={name}
         style={{ 
-          width: '150%', // Scale up to push transparent padding out of the box
-          height: '150%', 
-          objectFit: 'contain', 
+          width: '100%', 
+          height: '100%', 
+          objectFit: 'cover', // Changed from 'contain' to 'cover'
           imageRendering: 'pixelated',
-          transform: 'scale(1.2)', // Fine-tune the "zoom" here
+          
+          // 🚨 CRANK THIS UP: Try 2, 2.5, or even 3 until it fills the box
+          transform: 'scale(4.5)', 
+          
           display: 'block'
         }}
         draggable={false}
@@ -33,6 +39,7 @@ function PixelImg({ name, size = 28 }: { name: string; size?: number }) {
     </div>
   );
 }
+
 
 // Page definitions
 type PageId = 'splash' | 'about' | 'skills' | 'websites' | 'games' | 'neuro' | 'publications' | 'contact' | 'menu';
