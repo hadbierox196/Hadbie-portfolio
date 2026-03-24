@@ -181,7 +181,7 @@ html, body, #root {
 .splash-big {
   font-family: 'Press Start 2P', monospace;
   color: #EAB308;
-  font-size: clamp(40px, 14vw, 60px);
+  font-size: clamp(60px, 18vw, 80px);
   line-height: 1;
 }
 
